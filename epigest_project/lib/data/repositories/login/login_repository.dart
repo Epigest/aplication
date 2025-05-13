@@ -1,5 +1,7 @@
+import 'package:result_dart/result_dart.dart';
+
 abstract interface class LoginRepository {
-  login(String cpfCnpj, String senha);
-  logout();
-  getUser();
+  AsyncResult login(String cpfCnpj, String senha);
+  AsyncResult logout();
+  AsyncResult getUser();
 }
