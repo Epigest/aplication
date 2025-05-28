@@ -1,6 +1,7 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 abstract final class AppTheme {
   // The FlexColorScheme defined light mode ThemeData.
   static ThemeData light = FlexThemeData.light(
@@ -22,6 +23,8 @@ abstract final class AppTheme {
     subThemesData: const FlexSubThemesData(
       useMaterial3Typography: true,
       defaultRadius: 10.0,
+      inputDecoratorIsFilled: true,
+      inputDecoratorBorderSchemeColor: SchemeColor.primary,
       inputDecoratorBorderType: FlexInputBorderType.outline,
       chipSchemeColor: SchemeColor.onTertiary,
       chipSelectedSchemeColor: SchemeColor.tertiaryContainer,
@@ -82,6 +85,7 @@ abstract final class AppTheme {
       blendOnColors: true,
       useMaterial3Typography: true,
       defaultRadius: 10.0,
+      inputDecoratorIsFilled: true,
       inputDecoratorBorderSchemeColor: SchemeColor.primaryContainer,
       inputDecoratorBorderType: FlexInputBorderType.outline,
       chipSchemeColor: SchemeColor.onTertiary,

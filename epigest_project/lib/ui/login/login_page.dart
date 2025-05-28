@@ -16,81 +16,79 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20.0),
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 450.0),
+            constraints: const BoxConstraints(maxWidth: 500),
             child: Card.filled(
-              elevation: 4.0,
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 25,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Row(
-                        spacing: 15,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Ícone de capacete de obra
-                          const Icon(Icons.construction, size: 28.0),
-                          const Text(
-                            'Epigest',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 28.0, fontWeight: FontWeight.bold),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              clipBehavior: Clip.antiAlias,
+              elevation: 4,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 6,
+                    ),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      spacing: 25,
+                      children: [
+                        Row(
+                          spacing: 15,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.construction),
+                            Text(
+                              'Epigest',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ],
+                        ),
+                        _buildSegmentedButton(),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            labelText:
+                                _selectedLoginType == LoginType.funcionario
+                                    ? 'CPF'
+                                    : 'CNPJ',
+                            border: const OutlineInputBorder(),
+                            prefixIcon: Icon(
+                              _selectedLoginType == LoginType.funcionario
+                                  ? Icons.badge_outlined
+                                  : Icons.business_center_outlined,
+                            ),
                           ),
-                        ],
-                      ),
-                      _buildSegmentedButton(),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          labelText: _selectedLoginType == LoginType.funcionario ? 'CPF' : 'CNPJ',
-                          prefixIcon: Icon(_selectedLoginType == LoginType.funcionario ? Icons.badge_outlined : Icons.business_center_outlined),
                         ),
-                        keyboardType: _selectedLoginType == LoginType.funcionario ? TextInputType.number : TextInputType.text,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira o ${_selectedLoginType == LoginType.funcionario ? 'CPF' : 'CNPJ'}';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Senha',
-                          prefixIcon: Icon(Icons.lock_outline),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Senha',
+                            border: OutlineInputBorder(),
+                            prefixIcon: Icon(Icons.lock_outline),
+                          ),
+                          obscureText: true,
                         ),
-                        obscureText: true,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira a senha';
-                          }
-                          return null;
-                        },
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Logando como ${_selectedLoginType.name}...')),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 12.0),
-                          textStyle: const TextStyle(fontSize: 16.0),
+                        ElevatedButton.icon(
+                          icon: const Icon(Icons.login),
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(150, 35),
+                          ),
+                          label: const Text('Entrar'),
                         ),
-                        child: const Text('Entrar'),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -103,26 +101,26 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildSegmentedButton() {
     return SegmentedButton<LoginType>(
-      segments: const <ButtonSegment<LoginType>>[
+      segments: <ButtonSegment<LoginType>>[
         ButtonSegment<LoginType>(
-            value: LoginType.funcionario,
-            label: Text('Funcionário'),
-            icon: Icon(Icons.person)),
+          value: LoginType.funcionario,
+          label: Text('Funcionário'),
+          icon: Icon(Icons.person),
+        ),
         ButtonSegment<LoginType>(
-            value: LoginType.empresa,
-            label: Text('Empresa'),
-            icon: Icon(Icons.business)),
+          value: LoginType.empresa,
+          label: Text('Empresa'),
+          icon: Icon(Icons.business),
+        ),
       ],
+      showSelectedIcon: false,
       selected: <LoginType>{_selectedLoginType},
       onSelectionChanged: (Set<LoginType> newSelection) {
         setState(() {
           _selectedLoginType = newSelection.first;
-          _formKey.currentState?.reset(); // Reset the single form
+          _formKey.currentState?.reset();
         });
       },
-      style: SegmentedButton.styleFrom(
-        minimumSize: const Size(double.infinity, 40),
-      ),
     );
   }
 }
