@@ -1,3 +1,4 @@
+import 'package:epigest_project/ui/epi/epi_list_page.dart';
 import 'package:flutter/material.dart';
 
 enum LoginType { funcionario, empresa }
@@ -81,7 +82,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         ElevatedButton.icon(
                           icon: const Icon(Icons.login),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EpiListPage(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(150, 35),
                           ),
